@@ -1,0 +1,13 @@
+server {
+        listen 80;
+        listen [::]:80;
+
+        root /var/www/1.piratepatriot.xyz/html;
+        index index.html;
+
+        server_name 1.piratepatriot.xyz;
+
+        location / {
+                try_files $uri $uri/ =404;
+        }
+}

@@ -1,0 +1,18 @@
+# windows cmd
+d:
+cd D:\2020\coding\local_severs_config\http_files
+python3 -m http.server 5000
+
+#windows cmd - get local ip number
+ipconfig
+
+#login to local modem
+http://192.168.1.1/
+menu > NAT Forwarding > virtual servers >  advanced
+  set service type to http, external port 80, internal ip = ip of host machine, internal port = 5000, protocol TCP
+
+#get external ip
+https://whatismyipaddress.com/
+http://192.168.1.1/ (local modem page) > network map > basic > ip address
+
+#set browser to external ip address.

@@ -1,0 +1,293 @@
+#
+D:\2020\coding\local_severs_config
+# in git
+cd /d/2020/coding/local_severs_config
+
+notes collated from these tutorials
+https://www.digitalocean.com/community/tutorials/how-to-serve-flask-applications-with-gunicorn-and-nginx-on-ubuntu-22-04
+https://adamtheautomator.com/nginx-subdomain/
+https://www.serverlab.ca/tutorials/linux/web-servers-linux/how-to-configure-multiple-domains-with-nginx-on-ubuntu/
+https://dev.to/brandonwallace/deploy-flask-the-easy-way-with-gunicorn-and-nginx-jgc
+
+https://www.freecodecamp.org/news/how-to-find-and-edit-a-windows-hosts-file/
+also check unix hosts file and flush(?? instructions on how to flush on ubuntu do not work.)
+https://www.configserverfirewall.com/ubuntu-linux/hosts-file/
+also look at supervisor here for improved server stability. (ie : reloading gunicorn after crashes)
+https://www.linode.com/docs/guides/flask-and-gunicorn-on-ubuntu/
+
+also look at namecheap dynamic ip client
+https://www.namecheap.com/support/knowledgebase/article.aspx/43/11/how-do-i-set-up-a-host-for-dynamic-dns/
+https://www.namecheap.com/support/knowledgebase/article.aspx/595/11/how-do-i-enable-dynamic-dns-for-a-domain/
+https://www.namecheap.com/support/knowledgebase/article.aspx/111/11/using-namecheap-dynamic-dns-client-version-20x-beta/
+#ssh setup for no password
+https://www.digitalocean.com/community/tutorials/how-to-set-up-ssh-keys-on-ubuntu-22-04
+
+#config ubuntu to keep running when laptop closed.
+https://askubuntu.com/questions/1059705/keep-a-laptop-running-with-closed-lid
+gsettings set org.gnome.settings-daemon.plugins.power lid-close-ac-action 'suspend'
+
+https://activedirectorypro.com/allow-ping-windows-firewall/
+allow pings on windows 10 pc
+
+
+
+#----------------------------------------------
+ssh m@192.168.1.120
+ssh m@192.168.1.122
+
+#check on same wifi network!!!!
+
+#identify groups user m belongs to
+groups m
+
+sudo usermod -aG sudo m
+#test if user is root.
+sudo whoami
+
+sudo visudo
+m ALL=(ALL) NOPASSWD:ALL
+
+#------------------------------------
+sudo apt update
+sudo apt install nginx
+
+sudo ufw app list
+sudo ufw allow 'Nginx HTTP'
+sudo ufw allow ssh
+sudo ufw status
+sudo ufw enable
+
+systemctl status nginx
+curl -4 icanhazip.com
+
+lynx localhost
+#-----------------------------------------
+sudo systemctl stop nginx
+sudo systemctl start nginx
+sudo systemctl restart nginx
+sudo systemctl reload nginx
+sudo systemctl disable nginx
+sudo systemctl enable nginx
+#----------------------------------------
+echo $USER
+
+sudo mkdir -p /var/www/piratepatriot.xyz/html
+sudo mkdir -p /var/www/shop.piratepatriot.xyz/html
+sudo mkdir -p /var/www/demo1.piratepatriot.xyz/html
+sudo mkdir -p /var/www/demo2.piratepatriot.xyz/html
+sudo mkdir -p /var/www/1.piratepatriot.xyz/html
+sudo mkdir -p /var/www/2.piratepatriot.xyz/html
+#
+sudo mkdir -p /var/www/peerbanking.com.au/html
+sudo mkdir -p /var/www/shop.peerbanking.com.au/html
+sudo mkdir -p /var/www/demo1.peerbanking.com.au/html
+sudo mkdir -p /var/www/demo2.peerbanking.com.au/html
+#
+sudo mkdir -p /var/www/peermortgage.com.au/html
+sudo mkdir -p /var/www/shop.peermortgage.com.au/html
+sudo mkdir -p /var/www/demo1.peermortgage.com.au/html
+sudo mkdir -p /var/www/demo2.peermortgage.com.au/html
+#
+sudo mkdir -p /var/www/findthenextflightoutofhere.com/html
+sudo mkdir -p /var/www/shop.findthenextflightoutofhere.com/html
+sudo mkdir -p /var/www/demo1.findthenextflightoutofhere.com/html
+sudo mkdir -p /var/www/demo2.findthenextflightoutofhere.com/html
+
+ls -la /var/www/
+
+sudo chown -R $USER:$USER /var/www/piratepatriot.xyz/html
+sudo chown -R $USER:$USER /var/www/shop.piratepatriot.xyz/html
+sudo chown -R $USER:$USER /var/www/demo1.piratepatriot.xyz/html
+sudo chown -R $USER:$USER /var/www/demo2.piratepatriot.xyz/html
+sudo chown -R $USER:$USER /var/www/1.piratepatriot.xyz/html
+sudo chown -R $USER:$USER /var/www/2.piratepatriot.xyz/html
+#
+sudo chown -R $USER:$USER /var/www/peerbanking.com.au/html
+sudo chown -R $USER:$USER /var/www/shop.peerbanking.com.au/html
+sudo chown -R $USER:$USER /var/www/demo1.peerbanking.com.au/html
+sudo chown -R $USER:$USER /var/www/demo2.peerbanking.com.au/html
+#
+sudo chown -R $USER:$USER /var/www/peermortgage.com.au/html
+sudo chown -R $USER:$USER /var/www/shop.peermortgage.com.au/html
+sudo chown -R $USER:$USER /var/www/demo1.peermortgage.com.au/html
+sudo chown -R $USER:$USER /var/www/demo2.peermortgage.com.au/html
+#
+sudo chown -R $USER:$USER /var/www/findthenextflightoutofhere.com/html
+sudo chown -R $USER:$USER /var/www/shop.findthenextflightoutofhere.com/html
+sudo chown -R $USER:$USER /var/www/demo1.findthenextflightoutofhere.com/html
+sudo chown -R $USER:$USER /var/www/demo2.findthenextflightoutofhere.com/html
+
+sudo chmod -R 755 /var/www/piratepatriot.xyz
+sudo chmod -R 755 /var/www/shop.piratepatriot.xyz
+sudo chmod -R 755 /var/www/demo1.piratepatriot.xyz
+sudo chmod -R 755 /var/www/demo2.piratepatriot.xyz
+sudo chmod -R 755 /var/www/1.piratepatriot.xyz
+sudo chmod -R 755 /var/www/2.piratepatriot.xyz
+#
+sudo chmod -R 755 /var/www/peerbanking.com.au
+sudo chmod -R 755 /var/www/shop.peerbanking.com.au
+sudo chmod -R 755 /var/www/demo1.peerbanking.com.au
+sudo chmod -R 755 /var/www/demo2.peerbanking.com.au
+#
+sudo chmod -R 755 /var/www/peermortgage.com.au
+sudo chmod -R 755 /var/www/shop.peermortgage.com.au
+sudo chmod -R 755 /var/www/demo1.peermortgage.com.au
+sudo chmod -R 755 /var/www/demo2.peermortgage.com.au
+#
+sudo chmod -R 755 /var/www/findthenextflightoutofhere.com
+sudo chmod -R 755 /var/www/shop.findthenextflightoutofhere.com
+sudo chmod -R 755 /var/www/demo1.findthenextflightoutofhere.com
+sudo chmod -R 755 /var/www/demo2.findthenextflightoutofhere.com
+#
+
+
+#transfer index.html files from local to remote
+scp -r /mnt/d/2020/coding/local_severs_config/static_html_files/*peermortgage* m@192.168.1.120:/home/m/temp/
+#
+cd ~/temp/static_html_files
+dos2unix *
+mv piratepatriot.xyz.index.html         /var/www/piratepatriot.xyz/html/index.html
+mv 1.piratepatriot.xyz.index.html       /var/www/1.piratepatriot.xyz/html/index.html
+mv 2.piratepatriot.xyz.index.html       /var/www/2.piratepatriot.xyz/html/index.html
+mv demo1.piratepatriot.xyz.index.html   /var/www/demo1.piratepatriot.xyz/html/index.html
+mv demo2.piratepatriot.xyz.index.html   /var/www/demo2.piratepatriot.xyz/html/index.html
+mv shop.piratepatriot.xyz.index.html    /var/www/shop.piratepatriot.xyz/html/index.html
+#
+mv peerbanking.com.au.index.html        /var/www/peerbanking.com.au/html/index.html
+mv demo1.peerbanking.com.au.index.html  /var/www/demo1.peerbanking.com.au/html/index.html
+mv demo2.peerbanking.com.au.index.html  /var/www/demo2.peerbanking.com.au/html/index.html
+mv shop.peerbanking.com.au.index.html   /var/www/shop.peerbanking.com.au/html/index.html
+#
+scp -r /mnt/d/2020/coding/local_severs_config/static_html_files/*peermortgage.com.au* m@192.168.1.120:/home/m/temp/
+mv peermortgage.com.au.index.html        /var/www/peermortgage.com.au/html/index.html
+mv demo1.peermortgage.com.au.index.html  /var/www/demo1.peermortgage.com.au/html/index.html
+mv demo2.peermortgage.com.au.index.html  /var/www/demo2.peermortgage.com.au/html/index.html
+mv shop.peermortgage.com.au.index.html   /var/www/shop.peermortgage.com.au/html/index.html
+#
+scp -r /mnt/d/2020/coding/local_severs_config/static_html_files/*findthenextflightoutofhere.com* m@192.168.1.120:/home/m/temp/
+mv findthenextflightoutofhere.com.index.html        /var/www/findthenextflightoutofhere.com/html/index.html
+mv demo1.findthenextflightoutofhere.com.index.html  /var/www/demo1.findthenextflightoutofhere.com/html/index.html
+mv demo2.findthenextflightoutofhere.com.index.html  /var/www/demo2.findthenextflightoutofhere.com/html/index.html
+mv shop.findthenextflightoutofhere.com.index.html   /var/www/shop.findthenextflightoutofhere.com/html/index.html
+
+#nb: check ownership & permissions.
+
+#transfer nginx sites-available config files from local to remote
+D:\2020\coding\local_severs_config\static_nginx_sites-available
+scp -r /mnt/d/2020/coding/local_severs_config/static_nginx_sites-available/ m@192.168.1.120:/home/m/temp/
+
+# use :set paste to avoid formatting tab/spaces problems
+sudo vim /etc/nginx/sites-available/piratepatriot.xyz
+sudo vim /etc/nginx/sites-available/1.piratepatriot.xyz
+sudo vim /etc/nginx/sites-available/2.piratepatriot.xyz
+sudo vim /etc/nginx/sites-available/demo1.piratepatriot.xyz
+sudo vim /etc/nginx/sites-available/demo2.piratepatriot.xyz
+sudo vim /etc/nginx/sites-available/shop.piratepatriot.xyz
+#
+sudo vim /etc/nginx/sites-available/peerbanking.com.au
+sudo vim /etc/nginx/sites-available/demo1.peerbanking.com.au
+sudo vim /etc/nginx/sites-available/demo2.peerbanking.com.au
+sudo vim /etc/nginx/sites-available/shop.peerbanking.com.au
+#
+sudo vim /etc/nginx/sites-available/peermortgage.com.au
+sudo vim /etc/nginx/sites-available/demo1.peermortgage.com.au
+sudo vim /etc/nginx/sites-available/demo2.peermortgage.com.au
+sudo vim /etc/nginx/sites-available/shop.peermortgage.com.au
+#
+sudo vim /etc/nginx/sites-available/findthenextflightoutofhere.com
+sudo vim /etc/nginx/sites-available/demo1.findthenextflightoutofhere.com
+sudo vim /etc/nginx/sites-available/demo2.findthenextflightoutofhere.com
+sudo vim /etc/nginx/sites-available/shop.findthenextflightoutofhere.com
+#
+
+sudo ln -s /etc/nginx/sites-available/piratepatriot.xyz /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/1.piratepatriot.xyz /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/2.piratepatriot.xyz /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo1.piratepatriot.xyz /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo2.piratepatriot.xyz /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shop.piratepatriot.xyz /etc/nginx/sites-enabled/
+#
+sudo ln -s /etc/nginx/sites-available/peerbanking.com.au /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo1.peerbanking.com.au /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo2.peerbanking.com.au /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shop.peerbanking.com.au /etc/nginx/sites-enabled/
+#
+sudo ln -s /etc/nginx/sites-available/peermortgage.com.au /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo1.peermortgage.com.au /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo2.peermortgage.com.au /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shop.peermortgage.com.au /etc/nginx/sites-enabled/
+#
+sudo ln -s /etc/nginx/sites-available/findthenextflightoutofhere.com /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo1.findthenextflightoutofhere.com /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/demo2.findthenextflightoutofhere.com /etc/nginx/sites-enabled/
+sudo ln -s /etc/nginx/sites-available/shop.findthenextflightoutofhere.com /etc/nginx/sites-enabled/
+
+
+ls -la /etc/nginx/sites-available/
+ls -la /etc/nginx/sites-enabled/
+
+
+#important: do this to avoid hash bucket memory problem that can arise from adding additional server names
+# see tutorial > https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-22-04
+sudo vim /etc/nginx/nginx.conf
+# remove # from in front of "server_names_hash_bucket_size 64;"
+
+sudo nginx -t
+sudo systemctl restart nginx
+sudo systemctl status nginx
+
+#log files to check
+less /var/log/nginx/access.log
+
+#chrome - flush dns cache and HSTS
+chrome://net-internals/#dns
+chrome://net-internals/#sockets
+chrome://net-internals/#hsts  ("Delete domain security policies" at bottom of page.)
+
+#set hosts file on server to local for testing purposes.
+sudo /etc/hosts
+#insert copy paste these lines
+127.0.0.1    findthenextflightoutofhere.com
+127.0.0.1    demo1.findthenextflightoutofhere.com
+127.0.0.1    demo2.findthenextflightoutofhere.com
+127.0.0.1    shop.findthenextflightoutofhere.com
+#
+127.0.0.1    peermortgage.com.au
+127.0.0.1    demo1.peermortgage.com.au
+127.0.0.1    demo2.peermortgage.com.au
+127.0.0.1    shop.peermortgage.com.au
+#
+127.0.0.1    peerbanking.com.au
+127.0.0.1    demo1.peerbanking.com.au
+127.0.0.1    demo2.peerbanking.com.au
+127.0.0.1    shop.peerbanking.com.au
+#
+127.0.0.1    piratepatriot.xyz
+127.0.0.1    demo1.piratepatriot.xyz
+127.0.0.1    demo2.piratepatriot.xyz
+127.0.0.1    shop.piratepatriot.xyz
+#
+
+
+---------------------------------------
+lynx findthenextflightoutofhere.com
+lynx demo1.findthenextflightoutofhere.com
+lynx demo2.findthenextflightoutofhere.com
+lynx shop.findthenextflightoutofhere.com
+#
+lynx piratepatriot.xyz
+lynx demo1.piratepatriot.xyz
+lynx demo2.piratepatriot.xyz
+lynx shop.piratepatriot.xyz
+#
+lynx peermortgage.com.au
+lynx demo1.peermortgage.com.au
+lynx demo2.peermortgage.com.au
+lynx shop.peermortgage.com.au
+#
+lynx peerbanking.com.au
+lynx demo1.peerbanking.com.au
+lynx demo2.peerbanking.com.au
+lynx shop.peerbanking.com.au
+#
+-------------------------------------------
